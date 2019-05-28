@@ -207,69 +207,68 @@ public class Player extends MapObject {
 
 
         //mozgás
-        if(scratching){
-            if(currentAction != SCRATCHING){
+        if(scratching) {
+            if (currentAction != SCRATCHING) {
                 currentAction = SCRATCHING;
                 animation.setFrames(sprites.get(SCRATCHING));
                 animation.setDelay(50);
                 width = 60;
             }
-            else if(firing) {
-                if(currentAction != FIREBALL){
-                    currentAction = FIREBALL;
-                    animation.setFrames(sprites.get(FIREBALL));
+        }
+        else if(firing) {
+            if(currentAction != FIREBALL){
+                currentAction = FIREBALL;
+                animation.setFrames(sprites.get(FIREBALL));
+                animation.setDelay(100);
+                width = 30;
+            }
+        }
+        else if (dy > 0){
+            if(gliding) {
+                if (currentAction != GLIDING) {
+                    currentAction = GLIDING;
+                    animation.setFrames(sprites.get(GLIDING));
                     animation.setDelay(100);
-                    width = 30;
+                    width = 100;
                 }
+            }
+            else if (currentAction != FALLING){
+                currentAction = FALLING;
+                animation.setFrames(sprites.get(FALLING));
+                animation.setDelay(100);
+                width = 30;
+            }
+        }
+        else if(dy < 0){
+            if(currentAction != JUMPING){
+                currentAction = JUMPING;
+                animation.setFrames(sprites.get(JUMPING));
+                animation.setDelay(-1);
+                width = 30;
+            }
+        }
+        else if (left || right){
+            if(currentAction != WALKING){
+                currentAction = WALKING;
+                animation.setFrames(sprites.get(WALKING));
+                animation.setDelay(40);
+                width = 30;
+            }
+        }
+        else{
+            if(currentAction != IDLE){
+                currentAction = IDLE;
+                animation.setFrames(sprites.get(IDLE));
+                animation.setDelay(400);
+                width = 30;
+            }
+        }
 
-            }
-            else if (dy > 0){
-                if(gliding) {
-                    if (currentAction != GLIDING) {
-                        currentAction = GLIDING;
-                        animation.setFrames(sprites.get(GLIDING));
-                        animation.setDelay(100);
-                        width = 100;
-                    }
-                }
-                else if (currentAction != FALLING){
-                    currentAction = FALLING;
-                    animation.setFrames(sprites.get(FALLING));
-                    animation.setDelay(100);
-                    width = 30;
-                }
-            }
-            else if(dy < 0){
-                if(currentAction != JUMPING){
-                    currentAction = JUMPING;
-                    animation.setFrames(sprites.get(JUMPING));
-                    animation.setDelay(-1);
-                    width = 30;
-                }
-            }
-            else if (left || right){
-                if(currentAction != WALKING){
-                    currentAction = WALKING;
-                    animation.setFrames(sprites.get(WALKING));
-                    animation.setDelay(40);
-                    width = 30;
-                }
-            }
-            else{
-                if(currentAction != IDLE){
-                    currentAction = IDLE;
-                    animation.setFrames(sprites.get(IDLE));
-                    animation.setDelay(400);
-                    width = 30;
-                }
-            }
+        animation.update();
 
-            animation.update();
-
-            if(currentAction != SCRATCHING && currentAction != FIREBALL){
-                if(right) facingRight = true;
-                if(left) facingRight = false;
-            }
+        if(currentAction != SCRATCHING && currentAction != FIREBALL){
+            if(right) facingRight = true;
+            if(left) facingRight = false;
         }
     }
 
@@ -288,11 +287,6 @@ public class Player extends MapObject {
             }
         }
 
-        if(facingRight){
-            g.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
-        }
-        else{
-            g.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
-        }
+        super.draw(g);
     }
 }

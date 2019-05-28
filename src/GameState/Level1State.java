@@ -1,10 +1,12 @@
 package GameState;
 
 import Entity.*;
+import Entity.Enemies.*;
 import Main.GamePanel;
 import TileMap.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Level1State extends GameState {
 
@@ -16,6 +18,9 @@ public class Level1State extends GameState {
     private Letter letter3;
     private Letter letter4;
     private int lettersNum;
+    private HUD hud;
+
+    private ArrayList<Enemy> enemies;
 
     public Level1State(GameStateManager gsm){
         this.gsm = gsm;
@@ -29,14 +34,12 @@ public class Level1State extends GameState {
         tileMap.loadTiles("/Tilesets/grasstileset.gif");
         tileMap.loadMap("/Maps/level1-1.map");
         tileMap.setPosition(0,0);
-        tileMap.setTween(0.07);
+        tileMap.setTween(1);
 
         bg = new Background("/Backgrounds/grassbg1.gif", 0.1);
 
         player = new Player(tileMap);
         player.setPosition(100,100);
-
-
 
         letter = new Letter(tileMap, 0);
         letter.setPosition(50, 200);
@@ -46,6 +49,14 @@ public class Level1State extends GameState {
         letter3.setPosition(75, 200);
         letter4 = new Letter(tileMap, 3);
         letter4.setPosition(100, 200);
+
+        hud = new HUD(player);
+
+        enemies = new ArrayList<Enemy>();
+        Slugger s;
+        s = new Slugger(tileMap);
+        s.setPosition(100,100);
+        enemies.add(s);
     }
 
     @Override
@@ -73,6 +84,10 @@ public class Level1State extends GameState {
         letter4.update();
         tileMap.setPosition(GamePanel.Width / 2 - player.getX(),GamePanel.Height / 2 - player.getY());
 
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update();
+        }
+
         if(lettersNum == 4) gsm.setState(GameStateManager.WinState);
     }
 
@@ -85,6 +100,12 @@ public class Level1State extends GameState {
         letter2.draw(g);
         letter3.draw(g);
         letter4.draw(g);
+
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(g);
+        }
+
+        hud.draw(g);
     }
 
     @Override

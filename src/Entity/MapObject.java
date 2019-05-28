@@ -181,4 +181,13 @@ public abstract class MapObject {
         return x + xmap + width < 0 || x + xmap - width > GamePanel.Width ||
             y + ymap + height < 0 || y + ymap - height > GamePanel.Height;
     }
+
+    public void draw(Graphics2D g){
+        if(facingRight){
+            g.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
+        }
+        else{
+            g.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
+        }
+    }
 }
