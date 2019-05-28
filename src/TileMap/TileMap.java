@@ -100,8 +100,8 @@ public class TileMap {
         return tileSize;
     }
 
-    public int getX() {return (int)x;}
-    public int getY() {return (int)y;}
+    public double getX() {return x;}
+    public double getY() {return y;}
     public int getWidth() {return width;}
     public int getHeight() {return height;}
 
@@ -146,7 +146,7 @@ public class TileMap {
         }
     }
 
-    public void setTween(int i) {
+    public void setTween(double i) {
         this.tween = i;
     }
 }
